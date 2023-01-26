@@ -13,26 +13,26 @@ public class TankPawn : Pawn
     // Update is called once per frame
     public override void Update()
     {
-        base.Update();
+        base.Start();
     }
+
     public override void MoveForward()
     {
-        Debug.Log("Moving forward " + moveSpeed);
+        mover.Move(transform.forward, moveSpeed);
     }
 
     public override void MoveBackward()
     {
-        Debug.Log("Moving backward" + moveSpeed);
+        mover.Move(transform.forward, -moveSpeed);
     }
 
     public override void RotateClockwise()
     {
-        Debug.Log("Rotate clockwise " + turnSpeed);
+        mover.Rotate(turnSpeed);
     }
 
     public override void RotateCounterClockwise()
     {
-        Debug.Log("Rotating counterclockwise " + turnSpeed);
+        mover.Rotate(-turnSpeed);
     }
-
 }
