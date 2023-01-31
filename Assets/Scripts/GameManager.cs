@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerControllerPrefab;
     public GameObject tankPawnPrefab;
     public Transform playerSpawnTransform;
+    public List<PlayerController> players;
     #endregion Variables
     // Start is called before the first frame update
     void Awake()
@@ -25,6 +26,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        players = new List<PlayerController>();
     }
 
     // Update is called once per frame

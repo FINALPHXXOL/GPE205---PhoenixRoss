@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class TankPawn : Pawn
 {
+    public Shooter shooter;
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
+        shooter = GetComponent<Shooter>();
     }
 
     // Update is called once per frame

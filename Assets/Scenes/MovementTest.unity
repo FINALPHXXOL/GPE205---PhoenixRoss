@@ -252,6 +252,7 @@ MonoBehaviour:
   playerControllerPrefab: {fileID: 4658368443184630074, guid: cc63fb559bc67e340b4741d4e39024d8, type: 3}
   tankPawnPrefab: {fileID: 5898593421246680132, guid: 1bbab6419f44d6b4f940c157b2522844, type: 3}
   playerSpawnTransform: {fileID: 909187608}
+  players: []
 --- !u!4 &522887245
 Transform:
   m_ObjectHideFlags: 0
