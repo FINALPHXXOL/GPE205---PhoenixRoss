@@ -7,5 +7,5 @@ public abstract class Shooter : MonoBehaviour
     // Start is called before the first frame update
     public abstract void Start();
     public abstract void Update();
-    public abstract void Shoot(GameObject shellPrefab, float fireForce, float damageDone, float lifeSpan);
+    public abstract void Shoot(GameObject shellPrefab, float fireForce, float damageDone, float lifespan);
 }

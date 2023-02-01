@@ -5,6 +5,10 @@ using UnityEngine;
 public class TankPawn : Pawn
 {
     public Shooter shooter;
+    public GameObject shellPrefab;
+    public float fireForce;
+    public float damageDone;
+    public float lifespan;
     // Start is called before the first frame update
     public override void Start()
     {
@@ -36,5 +40,10 @@ public class TankPawn : Pawn
     public override void RotateCounterClockwise()
     {
         mover.Rotate(-turnSpeed);
+    }
+
+    public override void Shoot()
+    {
+        shooter.Shoot(shellPrefab, fireForce, damageDone, lifespan);
     }
 }
