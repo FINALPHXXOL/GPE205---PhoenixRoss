@@ -9,17 +9,25 @@ public class TankPawn : Pawn
     public float fireForce;
     public float damageDone;
     public float lifespan;
+    private float timeUntilNextEvent;
+    float secondsPerShot;
+
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
         shooter = GetComponent<Shooter>();
+        timeUntilNextEvent = 0f;
+        secondsPerShot = (1f / fireRate);
+        
+
     }
 
     // Update is called once per frame
     public override void Update()
     {
         base.Start();
+        timeUntilNextEvent -= Time.deltaTime;
     }
 
     public override void MoveForward()
@@ -44,6 +52,12 @@ public class TankPawn : Pawn
 
     public override void Shoot()
     {
-        shooter.Shoot(shellPrefab, fireForce, damageDone, lifespan);
+        if (timeUntilNextEvent <= 0)
+        {
+            shooter.Shoot(shellPrefab, fireForce, damageDone, lifespan);
+            timeUntilNextEvent = secondsPerShot;
+        }
+        
     }
+    
 }

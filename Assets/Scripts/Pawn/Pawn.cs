@@ -7,9 +7,14 @@ using UnityEngine;
 
 public abstract class Pawn : MonoBehaviour
 {
+   
+
     public float moveSpeed;
+    public float dashSpeed;
     public float turnSpeed;
     public Mover mover;
+    // Variable for Rate of Fire
+    public float fireRate;
 
     // Start is called before the first frame update
     public virtual void Start()

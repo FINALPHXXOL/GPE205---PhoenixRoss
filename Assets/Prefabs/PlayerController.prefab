@@ -50,3 +50,4 @@ MonoBehaviour:
   rotateClockwiseKey: 100
   rotateCounterClockwiseKey: 97
   shootKey: 32
+  dashKey: 304
