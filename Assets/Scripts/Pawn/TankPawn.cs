@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class TankPawn : Pawn
@@ -32,26 +33,46 @@ public class TankPawn : Pawn
 
     public override void MoveForward()
     {
+        NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
         mover.Move(transform.forward, moveSpeed);
+        if (noise != null) { 
+        noise.MakeNoise(11);
+        }
     }
 
     public override void MoveBackward()
     {
+        NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
         mover.Move(transform.forward, -moveSpeed);
+        if (noise != null)
+        {
+            noise.MakeNoise(11);
+        }
     }
 
     public override void RotateClockwise()
     {
+        NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
         mover.Rotate(turnSpeed);
+        if (noise != null)
+        {
+            noise.MakeNoise(6);
+        }
     }
 
     public override void RotateCounterClockwise()
     {
+        NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
         mover.Rotate(-turnSpeed);
+        if (noise != null)
+        {
+            noise.MakeNoise(6);
+        }
     }
 
     public override void RotateTowards(Vector3 targetPosition)
     {
+        
         Vector3 vectorToTarget = targetPosition - transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(vectorToTarget, Vector3.up);
 
@@ -60,12 +81,22 @@ public class TankPawn : Pawn
 
     public override void Shoot()
     {
+        if (gameObject != null) { 
+        NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
         if (timeUntilNextEvent <= 0)
         {
-            shooter.Shoot(shellPrefab, fireForce, damageDone, lifespan);
-            timeUntilNextEvent = secondsPerShot;
+            if (shooter != null)
+            {
+                shooter.Shoot(shellPrefab, fireForce, damageDone, lifespan);
+                timeUntilNextEvent = secondsPerShot;
+                if (noise != null)
+                {
+                    noise.MakeNoise(21);
+                }
+            }
         }
-        
+        }
+
     }
     
 }

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class AIController : Controller
 {
-    public enum AIState { Idle, Guard, Chase, Flee, Patrol, Attack, Scan, BackToPost };
+    public enum AIState { Idle, Guard, Chase, Flee, Patrol, Attack, ChooseTarget };
     public AIState currentState;
     private float lastStateChangeTime;
     public GameObject target;
@@ -12,11 +13,33 @@ public class AIController : Controller
     public Transform[] waypoints;
     public float waypointStopDistance;
     private int currentWaypoint = 0;
+    public float hearingDistance;
+    public float fieldOfView = 45.0f;
+    public bool isPatrolLoop;
+
 
     // Start is called before the first frame update
     public override void Start()
     {
+        if (GameManager.instance != null)
+        {
+            //if (GameManager.instance.enemyAIsSpawnTranform != null)
+           // {
+                GameManager.instance.enemyAIs.Add(this);
+           // }
+        }
         base.Start();
+    }
+
+    public void OnDestroy()
+    {
+        if (GameManager.instance != null)
+        {
+           // if (GameManager.instance.enemyAIsSpawnTranform != null)
+           // {
+                GameManager.instance.enemyAIs.Remove(this);
+           // }
+        }
     }
 
     // Update is called once per frame
@@ -26,24 +49,72 @@ public class AIController : Controller
         base.Update();
     }
 
-    public void MakeDecisions()
+    public virtual void MakeDecisions()
     {
+        
         switch (currentState)
         {
             case AIState.Idle:
                 // Do work 
                 DoIdleState();
+                TargetPlayerOne();
                 // Check for transitions
-                if (IsDistanceLessThan(target, 10))
+                if /*(IsDistanceLessThan(target, 10))*/(CanSee(target) || CanHear(target))
                 {
-                    ChangeState(AIState.Chase);
+                    ChangeState(AIState.Attack);
                 }
                 break;
             case AIState.Chase:
                 // Do work
                 DoChaseState();
                 // Check for transitions
-                if (!IsDistanceLessThan(target, 10))
+                if /*(!IsDistanceLessThan(target, 10))*/(!CanSee(target) && !CanHear(target))
+                {
+                    ChangeState(AIState.Idle);
+                }
+                if (pawn.hp != null)
+                {
+                    if (pawn.hp.IsHealthPercentBelow(20))
+                    {
+                        ChangeState(AIState.Flee);
+                    }
+                }
+                break;
+            case AIState.Flee:
+                // Do work
+                Flee();
+                if /*(!IsDistanceLessThan(target, 10))*/(!CanSee(target) && !CanHear(target))
+                {
+                    ChangeState(AIState.Idle);
+                }
+                break;
+            case AIState.Attack:
+                DoAttackState();
+                if /*(!IsDistanceLessThan(target, 10))*/(!CanSee(target) && !CanHear(target))
+                {
+                    ChangeState(AIState.Idle);
+                }
+                if (pawn.hp != null)
+                {
+                    if (pawn.hp.IsHealthPercentBelow(20))
+                    {
+                        ChangeState(AIState.Flee);
+                    }
+                }
+                break;
+            case AIState.Patrol:
+                Patrol();
+                if /*(IsDistanceLessThan(target, 10))*/(CanSee(target) || CanHear(target))
+                {
+                    ChangeState(AIState.Chase);
+                }
+                break;
+            case AIState.ChooseTarget:
+                TargetPlayerOne();
+                if /*(IsDistanceLessThan(target, 10))*/(CanSee(target) || CanHear(target))
+                {
+                    ChangeState(AIState.Chase);
+                } else if /*(!IsDistanceLessThan(target, 10))*/(!CanSee(target) && !CanHear(target))
                 {
                     ChangeState(AIState.Idle);
                 }
@@ -63,11 +134,17 @@ public class AIController : Controller
     #region States
     public void DoSeekState()
     {
-        Seek(target);
+        if (target.transform.position != null)
+        {
+            Seek(target.transform.position);
+        }
     }
     protected virtual void DoChaseState()
     {
-        Seek(target);
+        if (target.transform.position != null)
+        {
+            Seek(target.transform.position);
+        }
     }
     protected virtual void DoIdleState()
     {
@@ -75,10 +152,14 @@ public class AIController : Controller
     }
     protected virtual void DoAttackState()
     {
-        // Chase
-        Seek(target);
         // Shoot
         Shoot();
+        // Chase
+        if (target.transform.position != null)
+        {
+            Seek(target.transform.position);
+        }
+       
     }
     protected void Flee()
     {
@@ -95,7 +176,7 @@ public class AIController : Controller
         float flippedPercentOfFleeDistance = 1 - percentOfFleeDistance;
 
         // Seek the point that is "fleeVector" away from our current position
-        Seek(pawn.transform.position + fleeVector);
+        Seek(pawn.transform.position + fleeVector * flippedPercentOfFleeDistance);
         
     }
     protected void Patrol()
@@ -111,7 +192,7 @@ public class AIController : Controller
                 currentWaypoint++;
             }
         }
-        else
+        else if (isPatrolLoop == true)
         {
             RestartPatrol();
         }
@@ -127,21 +208,34 @@ public class AIController : Controller
     #region Behaviors
     public void Seek(Vector3 targetPosition)
     {
-        pawn.RotateTowards(targetPosition);
+        if (targetPosition != null)
+        {
+            pawn.RotateTowards(targetPosition);
 
-        pawn.MoveForward();
+            if (target != null)
+            {
+                pawn.MoveForward();
+            }
+            
+        }
     }
 
     public void Seek(Transform targetTransform)
     {
+        if (targetTransform != null)
+        { 
         // Seek the position of our target Transform
         Seek(targetTransform.position);
+        }
     }
 
     public void Seek(Pawn targetPawn)
     {
-        // Seek the pawn's transform!
-        Seek(targetPawn.transform);
+        if (targetPawn != null)
+        {
+            // Seek the pawn's transform!
+            Seek(targetPawn.transform);
+        }
     }
     public void Shoot()
     {
@@ -194,12 +288,21 @@ public class AIController : Controller
     #region Transitions
     protected bool IsDistanceLessThan(GameObject target, float distance)
     {
-        if (Vector3.Distance(pawn.transform.position, target.transform.position) < distance)
+        if (IsHasTarget())
         {
-            return true;
+            if (Vector3.Distance(pawn.transform.position, target.transform.position) < distance)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {
+           // Debug.Log("State changed to find target");
+           // ChangeState(AIState.ChooseTarget);
             return false;
         }
     }
@@ -207,6 +310,111 @@ public class AIController : Controller
     {
         // return true if we have a target, false if we don't
         return (target != null);
+    }
+    public bool CanHear(GameObject target)
+    {
+        if (IsHasTarget())
+        {
+            // Get the target's NoiseMaker
+            NoiseMaker noiseMaker = target.GetComponent<NoiseMaker>();
+            // If they don't have one, they can't make noise, so return false
+            if (noiseMaker == null)
+            {
+                return false;
+            }
+            // If they are making 0 noise, they also can't be heard
+            if (noiseMaker.volumeDistance <= 0)
+            {
+                return false;
+            }
+            // If they are making noise, add the volumeDistance in the noisemaker to the hearingDistance of this AI
+            float totalDistance = noiseMaker.volumeDistance + hearingDistance;
+            // If the distance between our pawn and target is closer than this...
+            if (Vector3.Distance(pawn.transform.position, target.transform.position) <= totalDistance)
+            {
+                // ... then we can hear the target
+                return true;
+            }
+            else
+            {
+                // Otherwise, we are too far away to hear them
+                return false;
+            }
+        }
+        else
+        {
+           // Debug.Log("State changed to find target");
+           // ChangeState(AIState.ChooseTarget);
+            return false;
+        }
+    }
+    public bool CanSee(GameObject target)
+    {/*
+        if (IsHasTarget())
+        {
+            // Find the vector from the agent to the target
+            Vector3 agentToTargetVector = target.transform.position - transform.position;
+            // Find the angle between the direction our agent is facing (forward in local space) and the vector to the target.
+            float angleToTarget = Vector3.Angle(agentToTargetVector, pawn.transform.forward);
+            // if that angle is less than our field of view
+            if (angleToTarget < fieldOfView)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            ChangeState(AIState.ChooseTarget);
+            return false;
+        }
+        */
+        // We use the location of our target in a number of calculations - store it in a variable for easy access.
+        Vector3 targetPosition = target.transform.position;
+
+        // Find the vector from the agent to the target
+        // We do this by subtracting "destination minus origin", so that "origin plus vector equals destination."
+        Vector3 agentToTargetVector = targetPosition - transform.position;
+
+        // Find the angle between the direction our agent is facing (forward in local space) and the vector to the target.
+        float angleToTarget = Vector3.Angle(agentToTargetVector, transform.forward);
+
+        // if that angle is less than our field of view
+        if (angleToTarget < fieldOfView)
+        {
+            // Create a variable to hold a ray from our position to the target
+            Ray rayToTarget = new Ray();
+
+            // Set the origin of the ray to our position, and the direction to the vector to the target
+            rayToTarget.origin = transform.position;
+            rayToTarget.direction = agentToTargetVector;
+
+            // Create a variable to hold information about anything the ray collides with
+            RaycastHit hitInfo;
+
+            // Cast our ray for infinity in the direciton of our ray.
+            //    -- If we hit something...
+            if (Physics.Raycast(rayToTarget, out hitInfo, Mathf.Infinity))
+            {
+                // ... and that something is our target 
+                if (hitInfo.collider.gameObject == target)
+                {
+                    // return true 
+                    //    -- note that this will exit out of the function, so anything after this functions like an else
+                    return true;
+                }
+            }
+        }
+        // return false
+        //   -- note that because we returned true when we determined we could see the target, 
+        //      this will only run if we hit nothing or if we hit something that is not our target.
+       // Debug.Log("State changed to find target");
+      //  ChangeState(AIState.ChooseTarget);
+        return false;
+
     }
     #endregion Transitions
 

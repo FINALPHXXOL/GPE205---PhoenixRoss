@@ -11,8 +11,11 @@ public class GameManager : MonoBehaviour
     //Prefabs
     public GameObject playerControllerPrefab;
     public GameObject tankPawnPrefab;
+    //public GameObject AIControllerPrefab;
     public Transform playerSpawnTransform;
+   // public Transform enemyAISpawnTranform;
     public List<PlayerController> players;
+    public List<AIController> enemyAIs;
     #endregion Variables
     // Start is called before the first frame update
     void Awake()
@@ -28,12 +31,14 @@ public class GameManager : MonoBehaviour
         }
 
         players = new List<PlayerController>();
+        enemyAIs = new List<AIController>();
     }
 
     // Update is called once per frame
     void Start()
     {
         SpawnPlayer();
+        //SpawnAI();
     }
 
     public void SpawnPlayer()
@@ -46,4 +51,14 @@ public class GameManager : MonoBehaviour
 
         newController.pawn = newPawn;
     }
+    /*public void SpawnAI()
+    {
+        GameObject newAIObj = Instantiate(AIControllerPrefab, Vector3.zero, Quaternion.identity);
+        GameObject newPawnObj = Instantiate(tankPawnPrefab, enemyAISpawnTranform.position, enemyAISpawnTranform.rotation);
+
+        Controller newController = newAIObj.GetComponent<Controller>();
+        Pawn newPawn = newPawnObj.GetComponent<Pawn>();
+
+        newController.pawn = newPawn;
+    }*/
 }

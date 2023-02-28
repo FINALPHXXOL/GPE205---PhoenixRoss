@@ -7,12 +7,11 @@ using UnityEngine;
 
 public abstract class Pawn : MonoBehaviour
 {
-   
-
     public float moveSpeed;
     public float dashSpeed;
     public float turnSpeed;
     public Mover mover;
+    public Health hp;
     // Variable for Rate of Fire
     public float fireRate;
 
@@ -20,7 +19,8 @@ public abstract class Pawn : MonoBehaviour
     public virtual void Start()
     {
         mover = GetComponent<Mover>();
-    }
+        hp = GetComponent<Health>();
+}
 
 
     // Update is called once per frame
@@ -28,6 +28,7 @@ public abstract class Pawn : MonoBehaviour
     {
         
     }
+    
 
     public abstract void MoveForward();
     public abstract void MoveBackward();

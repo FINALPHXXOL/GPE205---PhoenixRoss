@@ -6,7 +6,7 @@ using UnityEngine;
 public class TankMover : Mover
 {
     // Variable to hold the Rigidbody Component
-    private Rigidbody rb;
+    public Rigidbody rb;
 
     // Start is called before the first frame update
     public override void Start()
