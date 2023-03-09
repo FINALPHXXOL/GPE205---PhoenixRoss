@@ -44,12 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 423c447e82aed0c40945fc57f6cf31d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pawn: {fileID: 0}
+  pawn: {fileID: 7071923814643761818, guid: eec2ca2a247ba4a439a6d12a71ce28bb, type: 3}
   currentState: 0
   target: {fileID: 0}
-  fleeDistance: 0
+  fleeDistance: 5
   waypoints: []
-  waypointStopDistance: 0
-  hearingDistance: 0
+  waypointStopDistance: 3
+  hearingDistance: 5
   fieldOfView: 45
   isPatrolLoop: 0

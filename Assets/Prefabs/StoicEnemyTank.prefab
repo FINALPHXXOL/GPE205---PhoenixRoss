@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 4387748428274752470}
   - component: {fileID: 6150184030946204723}
   - component: {fileID: 3333912622910482356}
-  - component: {fileID: 4991765769089674045}
+  - component: {fileID: -2123328320335890658}
   m_Layer: 0
   m_Name: StoicEnemyTank
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1801586685276308847}
-  m_LocalRotation: {x: -0.028675182, y: 0.045316998, z: 0.0028169318, w: 0.9985571}
+  m_LocalRotation: {x: 0.00073256553, y: 0.99675477, z: -0.07997499, w: 0.009130209}
   m_LocalPosition: {x: -19.897606, y: 6.21, z: 23.933016}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -106,17 +106,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed44a75eb2babe6448355e5caa09be77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 1.2
   dashSpeed: 300
-  turnSpeed: 29
+  turnSpeed: 63
   mover: {fileID: 5013085087134462755}
   hp: {fileID: 0}
-  fireRate: 1
+  speedUpActive: 0
+  fireRate: 0.25
   shooter: {fileID: 0}
   shellPrefab: {fileID: 314419285128845443, guid: 4bde28657fcb7d04ca3a997b0badaef8, type: 3}
-  fireForce: 1000
+  fireForce: 500
   damageDone: 10
-  lifespan: 1.2
+  lifespan: 4
 --- !u!114 &5013085087134462755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,8 +185,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 194d1ad4c364be84b80dea94c320d3be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHealth: 0
   maxHealth: 50
   healthPercent: 0
+  shieldActive: 0
 --- !u!96 &3333912622910482356
 TrailRenderer:
   serializedVersion: 2
@@ -294,7 +297,7 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 0
---- !u!114 &4991765769089674045
+--- !u!114 &-2123328320335890658
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -303,20 +306,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1801586685276308847}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56505374494a8f84d919dddc8fed30ed, type: 3}
+  m_Script: {fileID: 11500000, guid: c393b110b47d7494abbe04fa9470aeb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pawn: {fileID: 6586985351248137118}
-  currentState: 0
-  target: {fileID: 5898593421246680132, guid: 1bbab6419f44d6b4f940c157b2522844, type: 3}
-  fleeDistance: 2
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  waypointStopDistance: 3
-  hearingDistance: 5
-  fieldOfView: 12
-  isPatrolLoop: 0
 --- !u!1 &6534679222801395054
 GameObject:
   m_ObjectHideFlags: 0

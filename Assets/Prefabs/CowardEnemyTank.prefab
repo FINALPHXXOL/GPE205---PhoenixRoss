@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 407928194326794962}
   - component: {fileID: 7788129688311518519}
   - component: {fileID: 1659935622135705264}
-  - component: {fileID: 8938372018603303481}
+  - component: {fileID: 1126693387793337634}
   m_Layer: 0
   m_Name: CowardEnemyTank
   m_TagString: Untagged
@@ -106,17 +106,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed44a75eb2babe6448355e5caa09be77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 1.2
   dashSpeed: 300
-  turnSpeed: 29
+  turnSpeed: 63
   mover: {fileID: 8997953638443416103}
   hp: {fileID: 0}
-  fireRate: 1
+  speedUpActive: 0
+  fireRate: 0.25
   shooter: {fileID: 0}
   shellPrefab: {fileID: 314419285128845443, guid: 4bde28657fcb7d04ca3a997b0badaef8, type: 3}
-  fireForce: 1000
+  fireForce: 500
   damageDone: 10
-  lifespan: 1.2
+  lifespan: 4
 --- !u!114 &8997953638443416103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,8 +185,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 194d1ad4c364be84b80dea94c320d3be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHealth: 0
   maxHealth: 50
   healthPercent: 0
+  shieldActive: 0
 --- !u!96 &1659935622135705264
 TrailRenderer:
   serializedVersion: 2
@@ -294,7 +297,7 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 0
---- !u!114 &8938372018603303481
+--- !u!114 &1126693387793337634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -303,20 +306,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2327706734385728619}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56505374494a8f84d919dddc8fed30ed, type: 3}
+  m_Script: {fileID: 11500000, guid: c393b110b47d7494abbe04fa9470aeb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pawn: {fileID: 7071923814643761818}
-  currentState: 0
-  target: {fileID: 5898593421246680132, guid: 1bbab6419f44d6b4f940c157b2522844, type: 3}
-  fleeDistance: 2
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  waypointStopDistance: 3
-  hearingDistance: 5
-  fieldOfView: 12
-  isPatrolLoop: 0
 --- !u!1 &7197580528568804458
 GameObject:
   m_ObjectHideFlags: 0

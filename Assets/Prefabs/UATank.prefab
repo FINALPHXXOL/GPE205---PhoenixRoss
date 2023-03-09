@@ -50,6 +50,7 @@ GameObject:
   - component: {fileID: -7096176337160858344}
   - component: {fileID: -1830456922513363297}
   - component: {fileID: -3701481656056511121}
+  - component: {fileID: 668360280382432165}
   m_Layer: 0
   m_Name: UATank
   m_TagString: Untagged
@@ -339,3 +340,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volumeDistance: 0
   volumeDistanceDefault: 0
+--- !u!114 &668360280382432165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5898593421246680132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c393b110b47d7494abbe04fa9470aeb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

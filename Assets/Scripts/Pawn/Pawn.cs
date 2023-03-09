@@ -12,6 +12,7 @@ public abstract class Pawn : MonoBehaviour
     public float turnSpeed;
     public Mover mover;
     public Health hp;
+    public bool speedUpActive;
     // Variable for Rate of Fire
     public float fireRate;
 
@@ -20,7 +21,7 @@ public abstract class Pawn : MonoBehaviour
     {
         mover = GetComponent<Mover>();
         hp = GetComponent<Health>();
-}
+    }
 
 
     // Update is called once per frame
@@ -28,7 +29,39 @@ public abstract class Pawn : MonoBehaviour
     {
         
     }
+
+    public void SpeedUpActivate()
+    {
+        speedUpActive = true;
+    }
+
+    public void SpeedUpDeactive()
+    {
+        speedUpActive = false;
+    }
     
+    public void AddMoveSpeed(float amount)
+    {
+        if (speedUpActive != true)
+        { 
+        moveSpeed = moveSpeed + amount;
+        }
+    }
+
+    public void RemoveMoveSpeed(float amount)
+    {
+        moveSpeed = moveSpeed - amount;
+    }
+
+    public void AddTurnSpeed(float amount)
+    {
+        turnSpeed = turnSpeed + amount;
+    }
+
+    public void RemoveTurnSpeed(float amount)
+    {
+        turnSpeed = turnSpeed - amount;
+    }
 
     public abstract void MoveForward();
     public abstract void MoveBackward();

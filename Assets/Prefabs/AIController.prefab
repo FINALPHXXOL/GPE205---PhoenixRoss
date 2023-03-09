@@ -51,4 +51,5 @@ MonoBehaviour:
   waypoints: []
   waypointStopDistance: 2
   hearingDistance: 5
-  fieldOfView: 45
+  fieldOfView: 165
+  isPatrolLoop: 0
