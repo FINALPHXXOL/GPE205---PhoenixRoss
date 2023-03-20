@@ -43,16 +43,15 @@ GameObject:
   - component: {fileID: 7870049485154556251}
   - component: {fileID: 5394466858633194897}
   - component: {fileID: 1420088237970571957}
-  - component: {fileID: 775231332615736503}
+  - component: {fileID: -8264517981323675128}
   - component: {fileID: 3059696366106200411}
   - component: {fileID: 6442975798692546839}
   - component: {fileID: 8374706358342308605}
   - component: {fileID: -7096176337160858344}
   - component: {fileID: -1830456922513363297}
-  - component: {fileID: -3701481656056511121}
-  - component: {fileID: 668360280382432165}
+  - component: {fileID: 6495866761542888332}
   m_Layer: 0
-  m_Name: UATank
+  m_Name: EnemyTankReal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,10 +64,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5898593421246680132}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0.028675182, y: 0.045316998, z: 0.0028169318, w: 0.9985571}
   m_LocalPosition: {x: 0.1301629, y: 0.28, z: -6.061046}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3504577878780448118}
   m_Father: {fileID: 0}
@@ -103,8 +102,8 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -4872552678638238010, guid: cd13c3b4f7e136d47b94f6d27c5995de, type: 3}
-  - {fileID: -8074505167046961010, guid: cd13c3b4f7e136d47b94f6d27c5995de, type: 3}
-  - {fileID: -3228131962952574658, guid: cd13c3b4f7e136d47b94f6d27c5995de, type: 3}
+  - {fileID: 2100000, guid: 389859620b2c7694ca8d063289cbbf0f, type: 2}
+  - {fileID: 2100000, guid: 2b315cf26b7c7a44191c26adc6b99b60, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -138,18 +137,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed44a75eb2babe6448355e5caa09be77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 2.9
   dashSpeed: 300
-  turnSpeed: 0.5
-  mover: {fileID: 775231332615736503}
+  turnSpeed: 84
+  mover: {fileID: -8264517981323675128}
   hp: {fileID: 0}
-  fireRate: 1
+  speedUpActive: 0
+  fireRate: 0.25
   shooter: {fileID: 0}
   shellPrefab: {fileID: 314419285128845443, guid: 4bde28657fcb7d04ca3a997b0badaef8, type: 3}
   fireForce: 1000
   damageDone: 10
   lifespan: 1.2
---- !u!114 &775231332615736503
+--- !u!114 &-8264517981323675128
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a53577e643ba54f9a6b0b0536a83f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  rb: {fileID: 3059696366106200411}
 --- !u!54 &3059696366106200411
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -216,8 +216,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 194d1ad4c364be84b80dea94c320d3be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHealth: 0
   maxHealth: 50
   healthPercent: 0
+  shieldActive: 0
+  shieldDamage: 0
+  shieldHeal: 0
+  owner: {fileID: 0}
 --- !u!96 &-1830456922513363297
 TrailRenderer:
   serializedVersion: 2
@@ -326,21 +331,7 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 0
---- !u!114 &-3701481656056511121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5898593421246680132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3794eb74de1a594419142cbdf5d34f2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  volumeDistance: 0
-  volumeDistanceDefault: 0
---- !u!114 &668360280382432165
+--- !u!114 &6495866761542888332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

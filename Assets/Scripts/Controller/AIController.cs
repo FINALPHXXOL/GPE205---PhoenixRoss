@@ -83,7 +83,11 @@ public class AIController : Controller
             case AIState.Flee:
                 // Do work
                 Flee();
-                if /*(!IsDistanceLessThan(target, 10))*/(!CanSee(target) && !CanHear(target))
+                if (!pawn.hp.IsHealthPercentBelow(20))
+                {
+                    ChangeState(AIState.Attack);
+                }
+                    if /*(!IsDistanceLessThan(target, 10))*/(!CanSee(target) && !CanHear(target))
                 {
                     ChangeState(AIState.Idle);
                 }

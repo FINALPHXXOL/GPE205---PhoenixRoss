@@ -33,6 +33,10 @@ public class AIOpposition : AIController
             case AIState.Flee:
                 // Do work
                 Flee();
+                if (!pawn.hp.IsHealthPercentBelow(20))
+                {
+                    ChangeState(AIState.Attack);
+                }
                 if (!CanSee(target) && !CanHear(target))
                 {
                     ChangeState(AIState.Idle);
