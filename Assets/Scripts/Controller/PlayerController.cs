@@ -22,14 +22,17 @@ public class PlayerController : Controller
         }
 
         base.Start();
+        
     }
 
     // Update is called once per frame
     public override void Update()
     {
         base.Update();
-
-        ProcessInputs();
+        if (pawn != null)
+        {
+            ProcessInputs();
+        }
     }
 
     public void OnDestroy()

@@ -23,16 +23,24 @@ public class AIBlindAssassin : AIController
             case AIState.Idle:
                 // Do work 
                 DoIdleState();
-                TargetPlayerOne();
+                TargetNearestTank();
                 // Check for transitions
-                if (CanHear(target))
+                if (target != null)
                 {
-                    ChangeState(AIState.Attack);
+                    if (CanHear(target))
+                    {
+                        ChangeState(AIState.Attack);
+                    }
                 }
                 break;
             case AIState.Attack:
+                TargetNearestTank();
                 DoAttackState();
-                break;
+                if (target == null)
+                {
+                    ChangeState(AIState.Idle);
+                }
+                    break;
         }
     }
 }

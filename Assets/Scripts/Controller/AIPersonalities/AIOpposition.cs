@@ -23,35 +23,45 @@ public class AIOpposition : AIController
             case AIState.Idle:
                 // Do work 
                 DoIdleState();
-                TargetPlayerOne();
-                if (CanSee(target) || CanHear(target))
+                TargetNearestTank();
+                if (target != null)
                 {
-                    ChangeState(AIState.Attack);
+                    if (CanSee(target) || CanHear(target))
+                    {
+                        ChangeState(AIState.Attack);
+                    }
                 }
-                
+
                 break;
             case AIState.Flee:
                 // Do work
+                TargetNearestTank();
                 Flee();
                 if (!pawn.hp.IsHealthPercentBelow(20))
                 {
                     ChangeState(AIState.Attack);
                 }
-                if (!CanSee(target) && !CanHear(target))
+                if (target != null)
                 {
-                    ChangeState(AIState.Idle);
+                    if (!CanSee(target) && !CanHear(target))
+                    {
+                        ChangeState(AIState.Idle);
+                    }
                 }
                 break;
             case AIState.Patrol:
-                TargetPlayerOne();
+                TargetNearestTank();
                 // Only travels to waypoints once
                 isPatrolLoop = false;
                 // Do work
                 Patrol();
                 // Check for transitions
-                if (CanSee(target) || CanHear(target))
+                if (target != null)
                 {
-                    ChangeState(AIState.Attack);
+                    if (CanSee(target) || CanHear(target))
+                    {
+                        ChangeState(AIState.Attack);
+                    }
                 }
                 if (pawn.hp != null)
                 {
@@ -62,15 +72,18 @@ public class AIOpposition : AIController
                 }
                 break;
             case AIState.Guard:
-                TargetPlayerOne();
+                TargetNearestTank();
                 // Loops between all waypoints
                 isPatrolLoop = true;
                 // Do work
                 Patrol();
                 // Check for transitions
-                if (CanSee(target) || CanHear(target))
+                if (target != null)
                 {
-                    ChangeState(AIState.Attack);
+                    if (CanSee(target) || CanHear(target))
+                    {
+                        ChangeState(AIState.Attack);
+                    }
                 }
                 if (pawn.hp != null)
                 {
@@ -81,6 +94,7 @@ public class AIOpposition : AIController
                 }
                 break;
             case AIState.Attack:
+                TargetNearestTank();
                 DoAttackState();
                 if (pawn.hp != null)
                 {
@@ -88,6 +102,10 @@ public class AIOpposition : AIController
                     {
                         ChangeState(AIState.Flee);
                     }
+                }
+                if (target == null || (!CanSee(target) && !CanHear(target)))
+                {
+                    ChangeState(AIState.Idle);
                 }
                 break;
         }

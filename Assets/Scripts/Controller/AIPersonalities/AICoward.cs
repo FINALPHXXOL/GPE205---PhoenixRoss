@@ -23,12 +23,13 @@ public class AICoward : AIController
             case AIState.Idle:
                 // Do work 
                 DoIdleState();
-                TargetPlayerOne();
+                TargetNearestTank();
                 break;
             case AIState.Flee:
                 // Do work
+                TargetNearestTank();
                 Flee();
-                if (!CanSee(target) && !CanHear(target))
+                if (target == null || (!CanSee(target) && !CanHear(target)))
                 {
                     ChangeState(AIState.Idle);
                 }
@@ -41,15 +42,18 @@ public class AICoward : AIController
                 }
                 break;
             case AIState.Patrol:
-                TargetPlayerOne();
+                TargetNearestTank();
                 // Only travels to waypoints once
                 isPatrolLoop = false;
                 // Do work
                 Patrol();
                 // Check for transitions
-                if (CanSee(target) || CanHear(target))
+                if (target != null)
                 {
-                    ChangeState(AIState.Flee);
+                    if (CanSee(target) || CanHear(target))
+                    {
+                        ChangeState(AIState.Flee);
+                    }
                 }
                 if (pawn.hp != null)
                 {
@@ -60,15 +64,18 @@ public class AICoward : AIController
                 }
                 break;
             case AIState.Guard:
-                TargetPlayerOne();
+                TargetNearestTank();
                 // Loops between all waypoints
                 isPatrolLoop = true;
                 // Do work
                 Patrol();
                 // Check for transitions
-                if (CanSee(target) || CanHear(target))
+                if (target != null)
                 {
-                    ChangeState(AIState.Flee);
+                    if (CanSee(target) || CanHear(target))
+                    {
+                        ChangeState(AIState.Flee);
+                    }
                 }
                 if (pawn.hp != null)
                 {

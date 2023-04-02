@@ -113,10 +113,11 @@ MonoBehaviour:
   hp: {fileID: 0}
   speedUpActive: 0
   fireRate: 0.25
+  controller: {fileID: 0}
   shooter: {fileID: 0}
   shellPrefab: {fileID: 314419285128845443, guid: 4bde28657fcb7d04ca3a997b0badaef8, type: 3}
   fireForce: 1000
-  damageDone: 10
+  damageDone: 50
   lifespan: 1.2
 --- !u!114 &7155025398470419404
 MonoBehaviour:

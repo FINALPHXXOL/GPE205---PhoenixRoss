@@ -24,9 +24,9 @@ public class AIController : Controller
         if (GameManager.instance != null)
         {
             //if (GameManager.instance.enemyAIsSpawnTranform != null)
-           // {
-                GameManager.instance.enemyAIs.Add(this);
-           // }
+            // {
+            GameManager.instance.enemyAIs.Add(this);
+            // }
         }
         base.Start();
     }
@@ -35,10 +35,10 @@ public class AIController : Controller
     {
         if (GameManager.instance != null)
         {
-           // if (GameManager.instance.enemyAIsSpawnTranform != null)
-           // {
-                GameManager.instance.enemyAIs.Remove(this);
-           // }
+            // if (GameManager.instance.enemyAIsSpawnTranform != null)
+            // {
+            GameManager.instance.enemyAIs.Remove(this);
+            // }
         }
     }
 
@@ -51,24 +51,28 @@ public class AIController : Controller
 
     public virtual void MakeDecisions()
     {
-        
+
         switch (currentState)
         {
             case AIState.Idle:
                 // Do work 
                 DoIdleState();
-                TargetPlayerOne();
+                TargetNearestTank();
                 // Check for transitions
-                if /*(IsDistanceLessThan(target, 10))*/(CanSee(target) || CanHear(target))
+                if (target != null)
                 {
-                    ChangeState(AIState.Attack);
+                    if /*(IsDistanceLessThan(target, 10))*/(CanSee(target) || CanHear(target))
+                    {
+                        ChangeState(AIState.Attack);
+                    }
                 }
                 break;
             case AIState.Chase:
                 // Do work
+                TargetNearestTank();
                 DoChaseState();
                 // Check for transitions
-                if /*(!IsDistanceLessThan(target, 10))*/(!CanSee(target) && !CanHear(target))
+                if (target == null || (!CanSee(target) && !CanHear(target)))
                 {
                     ChangeState(AIState.Idle);
                 }
@@ -82,21 +86,28 @@ public class AIController : Controller
                 break;
             case AIState.Flee:
                 // Do work
+                TargetNearestTank();
                 Flee();
                 if (!pawn.hp.IsHealthPercentBelow(20))
                 {
                     ChangeState(AIState.Attack);
                 }
-                    if /*(!IsDistanceLessThan(target, 10))*/(!CanSee(target) && !CanHear(target))
+                if (target != null)
                 {
-                    ChangeState(AIState.Idle);
+                    if (target == null || (!CanSee(target) && !CanHear(target)))
+                    {
+                        ChangeState(AIState.Idle);
+                    }
                 }
                 break;
             case AIState.Attack:
+                TargetNearestTank();
                 DoAttackState();
-                if /*(!IsDistanceLessThan(target, 10))*/(!CanSee(target) && !CanHear(target))
+                if (target == null || (!CanSee(target) && !CanHear(target)))
                 {
-                    ChangeState(AIState.Idle);
+                    {
+                        ChangeState(AIState.Idle);
+                    }
                 }
                 if (pawn.hp != null)
                 {
@@ -107,18 +118,26 @@ public class AIController : Controller
                 }
                 break;
             case AIState.Patrol:
+                TargetNearestTank();
                 Patrol();
-                if /*(IsDistanceLessThan(target, 10))*/(CanSee(target) || CanHear(target))
+                if (target != null)
                 {
-                    ChangeState(AIState.Chase);
+                    if /*(IsDistanceLessThan(target, 10))*/(CanSee(target) || CanHear(target))
+                    {
+                        ChangeState(AIState.Chase);
+                    }
                 }
                 break;
             case AIState.ChooseTarget:
-                TargetPlayerOne();
-                if /*(IsDistanceLessThan(target, 10))*/(CanSee(target) || CanHear(target))
+                TargetNearestTank();
+                if (target != null)
                 {
-                    ChangeState(AIState.Chase);
-                } else if /*(!IsDistanceLessThan(target, 10))*/(!CanSee(target) && !CanHear(target))
+                    if /*(IsDistanceLessThan(target, 10))*/(CanSee(target) || CanHear(target))
+                    {
+                        ChangeState(AIState.Chase);
+                    }
+                }
+                if (target == null || (!CanSee(target) && !CanHear(target)))
                 {
                     ChangeState(AIState.Idle);
                 }
@@ -138,16 +157,27 @@ public class AIController : Controller
     #region States
     public void DoSeekState()
     {
-        if (target.transform.position != null)
+        if (target != null)
         {
-            Seek(target.transform.position);
+
+
+            if (target.transform.position != null)
+            {
+                Seek(target.transform.position);
+            }
         }
     }
     protected virtual void DoChaseState()
     {
-        if (target.transform.position != null)
+        if (target != null)
         {
-            Seek(target.transform.position);
+
+
+            if (target.transform.position != null)
+            {
+                Seek(target.transform.position);
+            }
+
         }
     }
     protected virtual void DoIdleState()
@@ -159,11 +189,16 @@ public class AIController : Controller
         // Shoot
         Shoot();
         // Chase
-        if (target.transform.position != null)
+        if (target != null)
         {
-            Seek(target.transform.position);
+
+
+            if (target.transform.position != null)
+            {
+                Seek(target.transform.position);
+            }
         }
-       
+
     }
     protected void Flee()
     {
@@ -181,7 +216,7 @@ public class AIController : Controller
 
         // Seek the point that is "fleeVector" away from our current position
         Seek(pawn.transform.position + fleeVector * flippedPercentOfFleeDistance);
-        
+
     }
     protected void Patrol()
     {
@@ -220,16 +255,16 @@ public class AIController : Controller
             {
                 pawn.MoveForward();
             }
-            
+
         }
     }
 
     public void Seek(Transform targetTransform)
     {
         if (targetTransform != null)
-        { 
-        // Seek the position of our target Transform
-        Seek(targetTransform.position);
+        {
+            // Seek the position of our target Transform
+            Seek(targetTransform.position);
         }
     }
 
@@ -266,26 +301,33 @@ public class AIController : Controller
     protected void TargetNearestTank()
     {
         // Get a list of all the tanks (pawns)
-        Pawn[] allTanks = FindObjectsOfType<Pawn>();
 
-        // Assume that the first tank is closest
-        Pawn closestTank = allTanks[0];
-        float closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
-
-        // Iterate through them one at a time
-        foreach (Pawn tank in allTanks)
+        if (GameManager.instance.players[0].pawn != null)
         {
-            // If this one is closer than the closest
-            if (Vector3.Distance(pawn.transform.position, tank.transform.position) <= closestTankDistance)
-            {
-                // It is the closest
-                closestTank = tank;
-                closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
-            }
-        }
+            // Assume that the first tank is closest
+            Pawn closestTank = GameManager.instance.players[0].pawn;
+            Debug.Log(closestTank.name + " , " + pawn.name);
+            float closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
 
-        // Target the closest tank
-        target = closestTank.gameObject;
+            // Iterate through them one at a time
+            foreach (PlayerController player in GameManager.instance.players)
+            {
+                if (player != null && player.pawn != null)
+                {
+                    // If this one is closer than the closest
+                    if (Vector3.Distance(pawn.transform.position, player.pawn.transform.position) <= closestTankDistance)
+                    {
+                        // It is the closest
+                        closestTank = player.pawn;
+                        closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
+                    }
+                }
+            }
+
+            // Target the closest tank
+            target = closestTank.gameObject;
+
+        }
     }
     #endregion Behaviors
 
@@ -305,8 +347,8 @@ public class AIController : Controller
         }
         else
         {
-           // Debug.Log("State changed to find target");
-           // ChangeState(AIState.ChooseTarget);
+            // Debug.Log("State changed to find target");
+            // ChangeState(AIState.ChooseTarget);
             return false;
         }
     }
@@ -347,8 +389,8 @@ public class AIController : Controller
         }
         else
         {
-           // Debug.Log("State changed to find target");
-           // ChangeState(AIState.ChooseTarget);
+            // Debug.Log("State changed to find target");
+            // ChangeState(AIState.ChooseTarget);
             return false;
         }
     }
@@ -415,8 +457,8 @@ public class AIController : Controller
         // return false
         //   -- note that because we returned true when we determined we could see the target, 
         //      this will only run if we hit nothing or if we hit something that is not our target.
-       // Debug.Log("State changed to find target");
-      //  ChangeState(AIState.ChooseTarget);
+        // Debug.Log("State changed to find target");
+        //  ChangeState(AIState.ChooseTarget);
         return false;
 
     }

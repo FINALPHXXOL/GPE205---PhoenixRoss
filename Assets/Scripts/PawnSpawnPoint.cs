@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class PawnSpawnPoint : MonoBehaviour
 {
-    public void Start()
+    public void Awake()
     {
         if (GameManager.instance != null)
         {
-            
                 GameManager.instance.spawns.Add(this);
         }
     }

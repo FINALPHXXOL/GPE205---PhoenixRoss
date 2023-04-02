@@ -21,19 +21,23 @@ public class AIStoicGuard : AIController
         switch (currentState)
         {
             case AIState.Guard:
-                TargetPlayerOne();
+                TargetNearestTank();
                 // Loops between all waypoints
                 // Do work
                 Patrol();
                 // Check for transitions
-                if (CanSee(target) || CanHear(target))
+                if (target != null)
                 {
-                    ChangeState(AIState.Attack);
+                    if (CanSee(target) || CanHear(target))
+                    {
+                        ChangeState(AIState.Attack);
+                    }
                 }
                 break;
             case AIState.Attack:
+                TargetNearestTank();
                 DoAttackState();
-                if (!CanSee(target) || !CanHear(target))
+                if (target == null || (!CanSee(target) && !CanHear(target)))
                 {
                    ChangeState(AIState.Guard);
                 }

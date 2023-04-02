@@ -65,7 +65,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5898593421246680132}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.9588198, z: 0, w: 0.28401536}
   m_LocalPosition: {x: 0.1301629, y: 0.28, z: -6.061046}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -145,6 +145,7 @@ MonoBehaviour:
   hp: {fileID: 0}
   speedUpActive: 0
   fireRate: 1
+  controller: {fileID: 4658368443184630072, guid: cc63fb559bc67e340b4741d4e39024d8, type: 3}
   shooter: {fileID: 0}
   shellPrefab: {fileID: 314419285128845443, guid: 4bde28657fcb7d04ca3a997b0badaef8, type: 3}
   fireForce: 1000
@@ -344,7 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3794eb74de1a594419142cbdf5d34f2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volumeDistance: 0
+  volumeDistance: 6
   volumeDistanceDefault: 0
 --- !u!114 &668360280382432165
 MonoBehaviour:

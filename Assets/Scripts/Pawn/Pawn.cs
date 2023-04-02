@@ -15,6 +15,7 @@ public abstract class Pawn : MonoBehaviour
     public bool speedUpActive;
     // Variable for Rate of Fire
     public float fireRate;
+    public Controller controller;
 
     // Start is called before the first frame update
     public virtual void Start()

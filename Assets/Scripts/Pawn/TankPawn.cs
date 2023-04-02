@@ -33,40 +33,53 @@ public class TankPawn : Pawn
 
     public override void MoveForward()
     {
-        NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
-        mover.Move(transform.forward, moveSpeed);
-        if (noise != null) { 
-        noise.MakeNoise(11);
+        if (gameObject != null)
+        {
+            NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
+            mover.Move(transform.forward, moveSpeed);
+            if (noise != null)
+            {
+                noise.MakeNoise(11);
+            }
         }
     }
 
     public override void MoveBackward()
     {
-        NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
-        mover.Move(transform.forward, -moveSpeed);
-        if (noise != null)
+        if (gameObject != null)
         {
-            noise.MakeNoise(11);
+            NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
+            mover.Move(transform.forward, -moveSpeed);
+            if (noise != null)
+            {
+                noise.MakeNoise(11);
+            }
         }
     }
 
     public override void RotateClockwise()
     {
-        NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
-        mover.Rotate(turnSpeed);
-        if (noise != null)
+        if (gameObject != null)
         {
-            noise.MakeNoise(6);
+            NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
+            mover.Rotate(turnSpeed);
+            if (noise != null)
+            {
+                noise.MakeNoise(6);
+            }
         }
     }
 
     public override void RotateCounterClockwise()
     {
-        NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
-        mover.Rotate(-turnSpeed);
-        if (noise != null)
+        if (gameObject != null)
         {
-            noise.MakeNoise(6);
+            NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
+            mover.Rotate(-turnSpeed);
+            if (noise != null)
+            {
+                noise.MakeNoise(6);
+            }
         }
     }
 

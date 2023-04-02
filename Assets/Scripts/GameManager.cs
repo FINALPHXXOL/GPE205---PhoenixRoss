@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -22,6 +23,15 @@ public class GameManager : MonoBehaviour
     private int index;
     private int listlength;
     #endregion Variables
+
+    // Game States
+    public GameObject TitleScreenStateObject;
+    public GameObject MainMenuStateObject;
+    public GameObject OptionsScreenStateObject;
+    public GameObject CreditsScreenStateObject;
+    public GameObject GameplayStateObject;
+    public GameObject GameOverScreenStateObject;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -44,7 +54,67 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
+        ActivateGameplay();
+    }
 
+    private void DeactivateAllStates()
+    {
+        // Deactivate all Game States
+        TitleScreenStateObject.SetActive(false);
+        MainMenuStateObject.SetActive(false);
+        OptionsScreenStateObject.SetActive(false);
+        CreditsScreenStateObject.SetActive(false);
+        GameplayStateObject.SetActive(false);
+        GameOverScreenStateObject.SetActive(false);
+    }
+
+    public void ActivateTitleScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        TitleScreenStateObject.SetActive(true);
+    }
+
+    public void ActivateMainMenu()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the main menu screen
+        MainMenuStateObject.SetActive(true);
+    }
+
+    public void ActivateOptionsScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the options screen
+        OptionsScreenStateObject.SetActive(true);
+    }
+    
+    public void ActivateCredits()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the credits screen
+        CreditsScreenStateObject.SetActive(true);
+    }
+
+    public void ActivateGameplay()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the gameplay screen
+        GameplayStateObject.SetActive(true);
+        
+    }
+
+    public void ActivateGameOver()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the game over screen
+        GameOverScreenStateObject.SetActive(true);
     }
 
     public Transform FindRandomSpawn()
@@ -63,7 +133,9 @@ public class GameManager : MonoBehaviour
         Pawn newPawn = newPawnObj.GetComponent<Pawn>();
 
         newController.pawn = newPawn;
+        newPawn.controller = newController;
     }
+    
     public void SpawnAI()
     {
         enemyAISpawnTranform = FindRandomSpawn();

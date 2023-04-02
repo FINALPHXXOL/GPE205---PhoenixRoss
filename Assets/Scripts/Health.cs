@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using static Unity.VisualScripting.Member;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
@@ -13,12 +14,16 @@ public class Health : MonoBehaviour
     public float shieldDamage;
     public float shieldHeal;
     public Pawn owner;
+    public Image circleHealth;
+
     // Start is called before the first frame update
     void Start()
     {
         currentHealth = maxHealth;
         healthPercent = (currentHealth / maxHealth) * 100;
     }
+
+
 
     // Update is called once per frame
     public void TakeDamage(float amount, Pawn source)
@@ -41,6 +46,7 @@ public class Health : MonoBehaviour
         }
         healthPercent = (currentHealth / maxHealth) * 100;
         Debug.Log("healthPercent of" + gameObject.name + " is " + healthPercent + "%");
+        circleHealth.fillAmount = (healthPercent / 100);
 
         if (currentHealth <= 0)
         {
@@ -52,6 +58,7 @@ public class Health : MonoBehaviour
     {
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         healthPercent = (currentHealth / maxHealth) * 100;
+        circleHealth.fillAmount = (healthPercent / 100);
     }
 
     public void Heal(float amount)
@@ -64,6 +71,7 @@ public class Health : MonoBehaviour
         Debug.Log(gameObject.name + " is healed by " + amount + "HP");
         healthPercent = (currentHealth / maxHealth) * 100;
         Debug.Log("healthPercent of " + gameObject.name + " is " + healthPercent + "%");
+        circleHealth.fillAmount = (healthPercent / 100);
     }
 
     public bool IsHealthPercentBelow(float amount)
@@ -97,8 +105,11 @@ public class Health : MonoBehaviour
 
     public void Die(Pawn source)
     {
+        Pawn pawn = gameObject.GetComponent<Pawn>();
+        Controller loseLife = pawn.controller;
         Debug.Log(source.name + " destroyed " + gameObject.name);
         Destroy(gameObject);
+        loseLife.RemoveLives(1);
     }
 }
 
