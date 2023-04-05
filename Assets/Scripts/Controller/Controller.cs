@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public abstract class Controller : MonoBehaviour
 {
     public Pawn pawn;
-    public Text UIScore;
-    public Text UILives;
+    public TextMeshProUGUI UIScore;
+    public TextMeshProUGUI UILives;
 
     public float score;
     public float lives;
@@ -15,7 +16,14 @@ public abstract class Controller : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
-        
+        if (UIScore != null)
+        {
+            UIScore.text = "Score: " + score;
+        }
+        if (UILives != null)
+        {
+            UILives.text = "Lives: " + lives;
+        }
     }
 
     // Update is called once per frame
@@ -41,34 +49,57 @@ public abstract class Controller : MonoBehaviour
 
     public void AddToScore(float amount)
     {
-        score = amount + score;
-        UIScore.text = "Score: " + score;
+        if (UIScore != null)
+        {
+            score = amount + score;
+        
+            UIScore.text = "Score: " + score;
+        }
     }
 
     public void RemoveScore(float amount)
     {
-        score = score - amount;
-        UIScore.text = "Score: " + score;
+        if (UIScore != null)
+        {
+            score = score - amount;
+        
+            UIScore.text = "Score: " + score;
+        }
     }
 
     public void AddLives(float amount)
     {
-        lives = amount + lives;
-        if (lives >= 0)
+        if (UILives != null)
         {
-            RespawnPlayer();
+            lives = amount + lives;
+            if (lives >= 0)
+            {
+                RespawnPlayer();
+            }
+        
+            UILives.text = "Lives: " + lives;
         }
-        UILives.text = "Lives: " + lives;
     }
 
     public void RemoveLives(float amount)
     {
-        lives = lives - amount;
-        if (lives >= 0)
+        if (UILives != null)
         {
-            Debug.Log("Player should be respawning.");
-            RespawnPlayer();
+            lives = lives - amount;
+            if (lives >= 0)
+            {
+                Debug.Log("Player should be respawning.");
+                RespawnPlayer();
+                UIScore.text = "Score: " + score;
+            } else if (lives < 0)
+            {
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.ActivateGameOver();
+                }
+            }
+        
+            UILives.text = "Lives: " + lives;
         }
-        UILives.text = "Lives: " + lives;
     }
 }

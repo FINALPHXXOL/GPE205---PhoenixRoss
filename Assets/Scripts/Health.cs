@@ -21,6 +21,7 @@ public class Health : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthPercent = (currentHealth / maxHealth) * 100;
+        circleHealth.fillAmount = (healthPercent / 100);
     }
 
 

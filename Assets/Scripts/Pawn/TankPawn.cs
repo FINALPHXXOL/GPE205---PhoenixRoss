@@ -36,7 +36,10 @@ public class TankPawn : Pawn
         if (gameObject != null)
         {
             NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
-            mover.Move(transform.forward, moveSpeed);
+            if (mover != null)
+            {
+                mover.Move(transform.forward, moveSpeed);
+            }
             if (noise != null)
             {
                 noise.MakeNoise(11);
@@ -49,7 +52,10 @@ public class TankPawn : Pawn
         if (gameObject != null)
         {
             NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
-            mover.Move(transform.forward, -moveSpeed);
+            if (mover != null) 
+            { 
+                mover.Move(transform.forward, -moveSpeed);
+            }
             if (noise != null)
             {
                 noise.MakeNoise(11);
@@ -62,7 +68,10 @@ public class TankPawn : Pawn
         if (gameObject != null)
         {
             NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
-            mover.Rotate(turnSpeed);
+            if (mover != null)
+            {
+                mover.Rotate(turnSpeed);
+            }
             if (noise != null)
             {
                 noise.MakeNoise(6);
@@ -75,7 +84,10 @@ public class TankPawn : Pawn
         if (gameObject != null)
         {
             NoiseMaker noise = gameObject.GetComponent<NoiseMaker>();
-            mover.Rotate(-turnSpeed);
+            if (mover != null)
+            {
+                mover.Rotate(-turnSpeed);
+            }
             if (noise != null)
             {
                 noise.MakeNoise(6);

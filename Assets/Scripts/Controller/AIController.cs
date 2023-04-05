@@ -306,7 +306,6 @@ public class AIController : Controller
         {
             // Assume that the first tank is closest
             Pawn closestTank = GameManager.instance.players[0].pawn;
-            Debug.Log(closestTank.name + " , " + pawn.name);
             float closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
 
             // Iterate through them one at a time

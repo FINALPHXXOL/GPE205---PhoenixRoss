@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     #endregion Variables
 
     // Game States
+    public GameObject AllMenus;
     public GameObject TitleScreenStateObject;
     public GameObject MainMenuStateObject;
     public GameObject OptionsScreenStateObject;
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
 
         players = new List<PlayerController>();
@@ -54,7 +55,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        ActivateGameplay();
+        ActivateTitleScreen();
     }
 
     private void DeactivateAllStates()
@@ -70,14 +71,16 @@ public class GameManager : MonoBehaviour
 
     public void ActivateTitleScreen()
     {
+        AllMenus.SetActive(true);
         // Deactivate all states
         DeactivateAllStates();
         // Activate the title screen
         TitleScreenStateObject.SetActive(true);
     }
 
-    public void ActivateMainMenu()
+    public void ActivateMainMenuScreen()
     {
+        AllMenus.SetActive(true);
         // Deactivate all states
         DeactivateAllStates();
         // Activate the main menu screen
@@ -86,6 +89,7 @@ public class GameManager : MonoBehaviour
 
     public void ActivateOptionsScreen()
     {
+        AllMenus.SetActive(true);
         // Deactivate all states
         DeactivateAllStates();
         // Activate the options screen
@@ -94,6 +98,7 @@ public class GameManager : MonoBehaviour
     
     public void ActivateCredits()
     {
+        AllMenus.SetActive(true);
         // Deactivate all states
         DeactivateAllStates();
         // Activate the credits screen
@@ -104,6 +109,7 @@ public class GameManager : MonoBehaviour
     {
         // Deactivate all states
         DeactivateAllStates();
+        AllMenus.SetActive(false);
         // Activate the gameplay screen
         GameplayStateObject.SetActive(true);
         
@@ -111,6 +117,7 @@ public class GameManager : MonoBehaviour
 
     public void ActivateGameOver()
     {
+        AllMenus.SetActive(true);
         // Deactivate all states
         DeactivateAllStates();
         // Activate the game over screen

@@ -6,16 +6,22 @@ public class DamageOnHit : MonoBehaviour
 {
     public float damageDone;
     public Pawn owner;
+    public AudioSource hitExplosion;
+    public AudioClip hitExplode;
 
     public void OnTriggerEnter(Collider other)
     {
         Health otherHealth = other.gameObject.GetComponent<Health>();
-
-        if (otherHealth != null)
+        if (otherHealth != owner.hp)
         {
-            otherHealth.TakeDamage(damageDone, owner);
+            if (otherHealth != null)
+            {
+                Debug.Log(otherHealth.name);
+                AudioSource.PlayClipAtPoint(hitExplode, otherHealth.transform.position);
+                otherHealth.TakeDamage(damageDone, owner);
+            }
+            //Destroy(gameObject);
         }
-
-        Destroy(gameObject);
+        
     }
 }
