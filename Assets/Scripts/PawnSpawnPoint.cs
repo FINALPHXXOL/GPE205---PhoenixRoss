@@ -11,4 +11,14 @@ public class PawnSpawnPoint : MonoBehaviour
                 GameManager.instance.spawns.Add(this);
         }
     }
+
+    public void OnDestroy()
+    {
+        if (GameManager.instance != null)
+        {
+            
+                GameManager.instance.spawns.Remove(this);
+            
+        }
+    }
 }

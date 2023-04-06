@@ -15,7 +15,10 @@ public class Health : MonoBehaviour
     public float shieldHeal;
     public Pawn owner;
     public Image circleHealth;
+    public GameObject audioManager;
 
+    //public AudioSource hitExplosion;
+    //public AudioClip hitExplode;
     // Start is called before the first frame update
     void Start()
     {
@@ -107,10 +110,24 @@ public class Health : MonoBehaviour
     public void Die(Pawn source)
     {
         Pawn pawn = gameObject.GetComponent<Pawn>();
+
+        AudioManager audio = audioManager.GetComponent<AudioManager>();
+
+        if(audio != null) 
+        { 
+            audio.PlayDeathSound();
+        }
+        /*if (GameManager.instance != null)
+        {
+            GameManager.instance.PlayDeathSound();
+        }*/
         Controller loseLife = pawn.controller;
         Debug.Log(source.name + " destroyed " + gameObject.name);
         Destroy(gameObject);
-        loseLife.RemoveLives(1);
+        if (loseLife != null)
+        { 
+            loseLife.RemoveLives(1);
+        }
     }
 }
 

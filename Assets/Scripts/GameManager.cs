@@ -20,6 +20,12 @@ public class GameManager : MonoBehaviour
     public List<PlayerController> players;
     public List<AIController> enemyAIs;
     public List<PawnSpawnPoint> spawns;
+    public AudioSource deathAudio;
+    public AudioClip deathClip;
+    public GameObject mapGenerator;
+    public GameObject newPlayerObj;
+    public GameObject newAIObj;
+    public float highscore;
     private int index;
     private int listlength;
     #endregion Variables
@@ -68,6 +74,55 @@ public class GameManager : MonoBehaviour
         GameplayStateObject.SetActive(false);
         GameOverScreenStateObject.SetActive(false);
     }
+    public void DestroyAllPlayerControllers()
+    {
+        // Loop through the list of objects to destroy
+        foreach (PlayerController obj in players)
+        {
+            // Destroy the current object
+            Destroy(obj.gameObject);
+        }
+
+        // Clear the list to remove all references to the destroyed objects
+        //objectsToDestroy.Clear();
+    }
+
+    public void DestroyAllAIControllers()
+    {
+        // Loop through the list of objects to destroy
+        foreach (AIController obj in enemyAIs)
+        {
+            // Destroy the current object
+            Destroy(obj.gameObject);
+        }
+
+        // Clear the list to remove all references to the destroyed objects
+        //objectsToDestroy.Clear();
+    }
+
+    public void DestroyAllPawns()
+    {
+        Pawn[] objectsToDelete = FindObjectsOfType<Pawn>();
+
+        foreach (Pawn obj in objectsToDelete)
+        {
+            Destroy(obj.gameObject);
+        }
+    }
+    public void PlayDeathSound()
+    {
+        deathAudio.PlayOneShot(deathClip);
+    }
+
+    public void QuitTheGame()
+    {
+        #if UNITY_STANDALONE
+            Application.Quit();
+        #endif
+            #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+    }
 
     public void ActivateTitleScreen()
     {
@@ -107,6 +162,10 @@ public class GameManager : MonoBehaviour
 
     public void ActivateGameplay()
     {
+        // generate map
+        MapGenerator map = mapGenerator.GetComponent<MapGenerator>();
+        map.GenerateMap();
+
         // Deactivate all states
         DeactivateAllStates();
         AllMenus.SetActive(false);
@@ -115,8 +174,33 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void FindHighScore()
+    {
+        foreach (PlayerController obj in players)
+        {
+           
+           if (obj.score > highscore)
+           {
+                highscore = obj.score;
+            }
+        }
+    }
     public void ActivateGameOver()
     {
+        FindHighScore();
+        GameOverScreenUI scoreui = GameOverScreenStateObject.GetComponent<GameOverScreenUI>();
+        scoreui.SetHighScore();
+        
+        //figure out a way to delete every single instantiated player controller
+        DestroyAllPlayerControllers();
+        DestroyAllAIControllers();
+        DestroyAllPawns();
+        //Destroy(newPlayerObj); // So these can delete
+        //Destroy(newAIObj);
+        // delete map
+        MapGenerator map = mapGenerator.GetComponent<MapGenerator>();
+        map.DeleteMap(mapGenerator);
+
         AllMenus.SetActive(true);
         // Deactivate all states
         DeactivateAllStates();
@@ -133,7 +217,7 @@ public class GameManager : MonoBehaviour
     public void SpawnPlayer()
     {
         playerSpawnTransform = FindRandomSpawn();
-        GameObject newPlayerObj = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity);
+        newPlayerObj = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity);
         GameObject newPawnObj = Instantiate(tankPawnPrefab, playerSpawnTransform.position, playerSpawnTransform.rotation);
 
         Controller newController = newPlayerObj.GetComponent<Controller>();
@@ -146,7 +230,7 @@ public class GameManager : MonoBehaviour
     public void SpawnAI()
     {
         enemyAISpawnTranform = FindRandomSpawn();
-        GameObject newAIObj = Instantiate(AIControllerPrefab, Vector3.zero, Quaternion.identity);
+        newAIObj = Instantiate(AIControllerPrefab, Vector3.zero, Quaternion.identity);
         GameObject newPawnObj = Instantiate(AITankPawnPrefab, enemyAISpawnTranform.position, enemyAISpawnTranform.rotation);
 
         Controller newController = newAIObj.GetComponent<Controller>();

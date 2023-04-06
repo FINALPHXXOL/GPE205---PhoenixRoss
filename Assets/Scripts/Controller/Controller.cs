@@ -32,8 +32,8 @@ public abstract class Controller : MonoBehaviour
         
     }
 
-    public void RespawnPlayer()
-    {
+    public abstract void RespawnPlayer();
+    /*{
         GameManager.instance.playerSpawnTransform = GameManager.instance.FindRandomSpawn();
 
         GameObject newPawnObj = Instantiate(GameManager.instance.tankPawnPrefab, GameManager.instance.playerSpawnTransform.position, GameManager.instance.playerSpawnTransform.rotation);
@@ -45,30 +45,30 @@ public abstract class Controller : MonoBehaviour
 
         Debug.Log("Player respawned.");
 
-    }
+    }*/
 
-    public void AddToScore(float amount)
-    {
+    public abstract void AddToScore(float amount);
+    /*{
         if (UIScore != null)
         {
             score = amount + score;
         
             UIScore.text = "Score: " + score;
         }
-    }
+    }*/
 
-    public void RemoveScore(float amount)
-    {
+    public abstract void RemoveScore(float amount);
+    /*{
         if (UIScore != null)
         {
             score = score - amount;
         
             UIScore.text = "Score: " + score;
         }
-    }
+    }*/
 
-    public void AddLives(float amount)
-    {
+    public abstract void AddLives(float amount);
+    /*{
         if (UILives != null)
         {
             lives = amount + lives;
@@ -79,10 +79,10 @@ public abstract class Controller : MonoBehaviour
         
             UILives.text = "Lives: " + lives;
         }
-    }
+    }*/
 
-    public void RemoveLives(float amount)
-    {
+    public abstract void RemoveLives(float amount);
+    /*{
         if (UILives != null)
         {
             lives = lives - amount;
@@ -101,5 +101,5 @@ public abstract class Controller : MonoBehaviour
         
             UILives.text = "Lives: " + lives;
         }
-    }
+    }*/
 }

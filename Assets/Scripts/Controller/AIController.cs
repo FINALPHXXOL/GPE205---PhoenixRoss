@@ -145,6 +145,40 @@ public class AIController : Controller
         }
     }
 
+    public override void RespawnPlayer()
+    {
+        GameManager.instance.playerSpawnTransform = GameManager.instance.FindRandomSpawn();
+
+        GameObject newPawnObj = Instantiate(GameManager.instance.tankPawnPrefab, GameManager.instance.playerSpawnTransform.position, GameManager.instance.playerSpawnTransform.rotation);
+
+        Pawn newPawn = newPawnObj.GetComponent<Pawn>();
+
+        this.pawn = newPawn;
+        newPawn.controller = this;
+
+        Debug.Log("Player respawned.");
+
+    }
+
+    public override void AddToScore(float amount)
+    {
+        
+    }
+
+    public override void RemoveScore(float amount)
+    {
+        
+    }
+
+    public override void AddLives(float amount)
+    {
+        
+    }
+
+    public override void RemoveLives(float amount)
+    {
+        
+    }
     public virtual void ChangeState(AIState newState)
     {
         //Change current state

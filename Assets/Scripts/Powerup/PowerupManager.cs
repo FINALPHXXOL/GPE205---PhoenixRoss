@@ -6,6 +6,8 @@ public class PowerupManager : MonoBehaviour
 {
     public List<Powerup> powerups;
     public List<Powerup> removedPowerupQueue;
+
+    public GameObject audioManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +31,9 @@ public class PowerupManager : MonoBehaviour
         if (powerupToAdd != null)
         { 
             powerupToAdd.Apply(this);
+            AudioManager audio = audioManager.GetComponent<AudioManager>();
 
+            audio.PlayPickupSound();
             powerups.Add(powerupToAdd);
         }
     }

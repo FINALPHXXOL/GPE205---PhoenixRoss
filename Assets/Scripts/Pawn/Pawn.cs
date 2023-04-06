@@ -17,9 +17,6 @@ public abstract class Pawn : MonoBehaviour
     public float fireRate;
     public Controller controller;
 
-    public AudioSource explosion3;
-    public AudioSource explosion4;
-
     // Start is called before the first frame update
     public virtual void Start()
     {

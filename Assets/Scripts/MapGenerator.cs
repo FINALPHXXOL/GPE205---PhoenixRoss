@@ -15,11 +15,12 @@ public class MapGenerator : MonoBehaviour
     public int mapSeed;
     public bool isMapOfTheDay;
     public bool isRandomSeed;
+    public int mapgenCount = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        GenerateMap();
+        //GenerateMap();
         
     }
 
@@ -134,5 +135,18 @@ public class MapGenerator : MonoBehaviour
         }
         GameManager.instance.SpawnPlayer();
         GameManager.instance.SpawnAI();
+    }
+
+    public void DeleteMap(GameObject parentObject)
+    {
+        // Iterate through all child objects of the parent object
+        for (int i = parentObject.transform.childCount - 1; i >= 0; i--)
+        {
+            // Get a reference to the current child object
+            GameObject childObject = parentObject.transform.GetChild(i).gameObject;
+            
+            // Destroy the child object
+            Destroy(childObject);
+        }
     }
 }

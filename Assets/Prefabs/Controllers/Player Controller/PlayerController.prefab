@@ -151,7 +151,7 @@ MonoBehaviour:
   UIScore: {fileID: 7731954767297752074}
   UILives: {fileID: 6324952371863560692}
   score: 0
-  lives: 1
+  lives: 0
   moveForwardKey: 119
   moveBackwardKey: 115
   rotateClockwiseKey: 100

@@ -46,7 +46,7 @@ public class PlayerController : Controller
         }
     }
 
-    public void RespawnPlayer()
+    public override void RespawnPlayer()
     {
         GameManager.instance.playerSpawnTransform = GameManager.instance.FindRandomSpawn();
 
@@ -61,7 +61,7 @@ public class PlayerController : Controller
 
     }
 
-    public void AddToScore(float amount)
+    public override void AddToScore(float amount)
     {
         score = amount + score;
         if (UIScore != null)
@@ -70,7 +70,7 @@ public class PlayerController : Controller
         }
     }
 
-    public void RemoveScore(float amount)
+    public override void RemoveScore(float amount)
     {
         score = score - amount;
         if (UIScore != null)
@@ -79,7 +79,7 @@ public class PlayerController : Controller
         }
     }
 
-    public void AddLives(float amount)
+    public override void AddLives(float amount)
     {
         lives = amount + lives;
         if (lives >= 0)
@@ -92,13 +92,19 @@ public class PlayerController : Controller
         }
     }
 
-    public void RemoveLives(float amount)
+    public override void RemoveLives(float amount)
     {
         lives = lives - amount;
         if (lives >= 0)
         {
             Debug.Log("Player should be respawning.");
             RespawnPlayer();
+        } else if (lives < 0)
+        {
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.ActivateGameOver();
+            }
         }
         if (UILives != null)
         {
