@@ -18,6 +18,7 @@ public class AIOpposition : AIController
 
     public override void MakeDecisions()
     {
+        
         switch (currentState)
         {
             case AIState.Idle:

@@ -11,7 +11,10 @@ public class ScorePowerup : Powerup
         Pawn addScore = target.GetComponent<Pawn>();
         if (addScore != null)
         {
-            addScore.controller.AddToScore(scoreToAdd);
+            if (addScore.controller != null)
+            {
+                addScore.controller.AddToScore(scoreToAdd);
+            }
         }
     }
 

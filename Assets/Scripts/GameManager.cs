@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     public GameObject newPlayerObj;
     public GameObject newAIObj;
     public float highscore;
+    public int enemyCount;
+    public int playerCount;
     private int index;
     private int listlength;
     #endregion Variables
@@ -237,5 +239,8 @@ public class GameManager : MonoBehaviour
         Pawn newPawn = newPawnObj.GetComponent<Pawn>();
 
         newController.pawn = newPawn;
+        newPawn.controller = newController;
+
+        enemyCount = enemyAIs.Count;
     }
 }

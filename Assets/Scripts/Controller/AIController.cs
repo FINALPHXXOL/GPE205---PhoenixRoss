@@ -26,6 +26,7 @@ public class AIController : Controller
             //if (GameManager.instance.enemyAIsSpawnTranform != null)
             // {
             GameManager.instance.enemyAIs.Add(this);
+            GameManager.instance.enemyCount = GameManager.instance.enemyAIs.Count;
             // }
         }
         base.Start();
@@ -38,6 +39,7 @@ public class AIController : Controller
             // if (GameManager.instance.enemyAIsSpawnTranform != null)
             // {
             GameManager.instance.enemyAIs.Remove(this);
+            
             // }
         }
     }
@@ -162,23 +164,28 @@ public class AIController : Controller
 
     public override void AddToScore(float amount)
     {
-        
+
     }
 
     public override void RemoveScore(float amount)
     {
-        
+
     }
 
     public override void AddLives(float amount)
     {
-        
+
     }
 
     public override void RemoveLives(float amount)
     {
-        
+        GameManager.instance.enemyCount = GameManager.instance.enemyCount - 1;
+        if (GameManager.instance.enemyCount <= 0)
+        {
+            GameManager.instance.ActivateGameOver();
+        }
     }
+
     public virtual void ChangeState(AIState newState)
     {
         //Change current state
@@ -225,8 +232,6 @@ public class AIController : Controller
         // Chase
         if (target != null)
         {
-
-
             if (target.transform.position != null)
             {
                 Seek(target.transform.position);
@@ -236,20 +241,23 @@ public class AIController : Controller
     }
     protected void Flee()
     {
-        // Find the Vector to our target
-        Vector3 vectorToTarget = target.transform.position - pawn.transform.position;
-        // Find the Vector away from our target by multiplying by -1
-        Vector3 vectorAwayFromTarget = -vectorToTarget;
-        // Find the vector we would travel down in order to flee
-        Vector3 fleeVector = vectorAwayFromTarget.normalized * fleeDistance;
+        if (pawn != null)
+        {
+            // Find the Vector to our target
+            Vector3 vectorToTarget = target.transform.position - pawn.transform.position;
+            // Find the Vector away from our target by multiplying by -1
+            Vector3 vectorAwayFromTarget = -vectorToTarget;
+            // Find the vector we would travel down in order to flee
+            Vector3 fleeVector = vectorAwayFromTarget.normalized * fleeDistance;
 
-        float targetDistance = Vector3.Distance(target.transform.position, pawn.transform.position);
-        float percentOfFleeDistance = targetDistance / fleeDistance;
-        percentOfFleeDistance = Mathf.Clamp01(percentOfFleeDistance);
-        float flippedPercentOfFleeDistance = 1 - percentOfFleeDistance;
+            float targetDistance = Vector3.Distance(target.transform.position, pawn.transform.position);
+            float percentOfFleeDistance = targetDistance / fleeDistance;
+            percentOfFleeDistance = Mathf.Clamp01(percentOfFleeDistance);
+            float flippedPercentOfFleeDistance = 1 - percentOfFleeDistance;
 
-        // Seek the point that is "fleeVector" away from our current position
-        Seek(pawn.transform.position + fleeVector * flippedPercentOfFleeDistance);
+            // Seek the point that is "fleeVector" away from our current position
+            Seek(pawn.transform.position + fleeVector * flippedPercentOfFleeDistance);
+        }
 
     }
     protected void Patrol()
@@ -340,26 +348,29 @@ public class AIController : Controller
         {
             // Assume that the first tank is closest
             Pawn closestTank = GameManager.instance.players[0].pawn;
-            float closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
-
-            // Iterate through them one at a time
-            foreach (PlayerController player in GameManager.instance.players)
+            if (pawn != null)
             {
-                if (player != null && player.pawn != null)
+                float closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
+
+                // Iterate through them one at a time
+                foreach (PlayerController player in GameManager.instance.players)
                 {
-                    // If this one is closer than the closest
-                    if (Vector3.Distance(pawn.transform.position, player.pawn.transform.position) <= closestTankDistance)
+                    if (player != null && player.pawn != null)
                     {
-                        // It is the closest
-                        closestTank = player.pawn;
-                        closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
+                        // If this one is closer than the closest
+                        if (Vector3.Distance(pawn.transform.position, player.pawn.transform.position) <= closestTankDistance)
+                        {
+                            // It is the closest
+                            closestTank = player.pawn;
+                            closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
+                        }
                     }
                 }
+
+                // Target the closest tank
+                target = closestTank.gameObject;
+
             }
-
-            // Target the closest tank
-            target = closestTank.gameObject;
-
         }
     }
     #endregion Behaviors
@@ -392,31 +403,38 @@ public class AIController : Controller
     }
     public bool CanHear(GameObject target)
     {
-        if (IsHasTarget())
+        if (pawn != null)
         {
-            // Get the target's NoiseMaker
-            NoiseMaker noiseMaker = target.GetComponent<NoiseMaker>();
-            // If they don't have one, they can't make noise, so return false
-            if (noiseMaker == null)
+            if (IsHasTarget())
             {
-                return false;
-            }
-            // If they are making 0 noise, they also can't be heard
-            if (noiseMaker.volumeDistance <= 0)
-            {
-                return false;
-            }
-            // If they are making noise, add the volumeDistance in the noisemaker to the hearingDistance of this AI
-            float totalDistance = noiseMaker.volumeDistance + hearingDistance;
-            // If the distance between our pawn and target is closer than this...
-            if (Vector3.Distance(pawn.transform.position, target.transform.position) <= totalDistance)
-            {
-                // ... then we can hear the target
-                return true;
+                // Get the target's NoiseMaker
+                NoiseMaker noiseMaker = target.GetComponent<NoiseMaker>();
+                // If they don't have one, they can't make noise, so return false
+                if (noiseMaker == null)
+                {
+                    return false;
+                }
+                // If they are making 0 noise, they also can't be heard
+                if (noiseMaker.volumeDistance <= 0)
+                {
+                    return false;
+                }
+                // If they are making noise, add the volumeDistance in the noisemaker to the hearingDistance of this AI
+                float totalDistance = noiseMaker.volumeDistance + hearingDistance;
+                // If the distance between our pawn and target is closer than this...
+                if (Vector3.Distance(pawn.transform.position, target.transform.position) <= totalDistance)
+                {
+                    // ... then we can hear the target
+                    return true;
+                }
+                else
+                {
+                    // Otherwise, we are too far away to hear them
+                    return false;
+                }
             }
             else
             {
-                // Otherwise, we are too far away to hear them
                 return false;
             }
         }
@@ -451,39 +469,42 @@ public class AIController : Controller
             return false;
         }
         */
-        // We use the location of our target in a number of calculations - store it in a variable for easy access.
-        Vector3 targetPosition = target.transform.position;
-
-        // Find the vector from the agent to the target
-        // We do this by subtracting "destination minus origin", so that "origin plus vector equals destination."
-        Vector3 agentToTargetVector = targetPosition - transform.position;
-
-        // Find the angle between the direction our agent is facing (forward in local space) and the vector to the target.
-        float angleToTarget = Vector3.Angle(agentToTargetVector, transform.forward);
-
-        // if that angle is less than our field of view
-        if (angleToTarget < fieldOfView)
+        if (pawn != null)
         {
-            // Create a variable to hold a ray from our position to the target
-            Ray rayToTarget = new Ray();
+            // We use the location of our target in a number of calculations - store it in a variable for easy access.
+            Vector3 targetPosition = target.transform.position;
 
-            // Set the origin of the ray to our position, and the direction to the vector to the target
-            rayToTarget.origin = transform.position;
-            rayToTarget.direction = agentToTargetVector;
+            // Find the vector from the agent to the target
+            // We do this by subtracting "destination minus origin", so that "origin plus vector equals destination."
+            Vector3 agentToTargetVector = targetPosition - transform.position;
 
-            // Create a variable to hold information about anything the ray collides with
-            RaycastHit hitInfo;
+            // Find the angle between the direction our agent is facing (forward in local space) and the vector to the target.
+            float angleToTarget = Vector3.Angle(agentToTargetVector, transform.forward);
 
-            // Cast our ray for infinity in the direciton of our ray.
-            //    -- If we hit something...
-            if (Physics.Raycast(rayToTarget, out hitInfo, Mathf.Infinity))
+            // if that angle is less than our field of view
+            if (angleToTarget < fieldOfView)
             {
-                // ... and that something is our target 
-                if (hitInfo.collider.gameObject == target)
+                // Create a variable to hold a ray from our position to the target
+                Ray rayToTarget = new Ray();
+
+                // Set the origin of the ray to our position, and the direction to the vector to the target
+                rayToTarget.origin = transform.position;
+                rayToTarget.direction = agentToTargetVector;
+
+                // Create a variable to hold information about anything the ray collides with
+                RaycastHit hitInfo;
+
+                // Cast our ray for infinity in the direciton of our ray.
+                //    -- If we hit something...
+                if (Physics.Raycast(rayToTarget, out hitInfo, Mathf.Infinity))
                 {
-                    // return true 
-                    //    -- note that this will exit out of the function, so anything after this functions like an else
-                    return true;
+                    // ... and that something is our target 
+                    if (hitInfo.collider.gameObject == target)
+                    {
+                        // return true 
+                        //    -- note that this will exit out of the function, so anything after this functions like an else
+                        return true;
+                    }
                 }
             }
         }

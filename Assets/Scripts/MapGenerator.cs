@@ -135,6 +135,7 @@ public class MapGenerator : MonoBehaviour
         }
         GameManager.instance.SpawnPlayer();
         GameManager.instance.SpawnAI();
+        
     }
 
     public void DeleteMap(GameObject parentObject)

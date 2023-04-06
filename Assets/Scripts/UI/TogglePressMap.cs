@@ -6,8 +6,10 @@ public class TogglePressMap : MonoBehaviour
 {
     public AudioSource buttonclick;
     public AudioClip buttonclip;
-    public void ChangeToMapOfTheDay()
+    public MapGenerator generator;
+    public void ChangeToMapOfTheDay(bool isOn)
     {
-        
+        buttonclick.PlayOneShot(buttonclip);
+        generator.isMapOfTheDay = isOn;
     }
 }

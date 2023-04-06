@@ -31,9 +31,10 @@ public class PowerupManager : MonoBehaviour
         if (powerupToAdd != null)
         { 
             powerupToAdd.Apply(this);
-            AudioManager audio = audioManager.GetComponent<AudioManager>();
-
-            audio.PlayPickupSound();
+            if (AudioManager.instance != null)
+            {
+                AudioManager.instance.PlayPickupSound();
+            }
             powerups.Add(powerupToAdd);
         }
     }

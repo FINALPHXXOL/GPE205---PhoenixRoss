@@ -36,7 +36,8 @@ public class Health : MonoBehaviour
         if (shieldActive != true)
         {
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        } else
+        }
+        else
         {
             shieldDamage = shieldDamage + amount;
             if (shieldDamage >= shieldHeal)
@@ -44,9 +45,9 @@ public class Health : MonoBehaviour
                 ShieldDeactivate();
             }
         }
-        if (source != null) 
-        { 
-        Debug.Log(source.name + " did " + amount + " damage to " + gameObject.name);
+        if (source != null)
+        {
+            Debug.Log(source.name + " did " + amount + " damage to " + gameObject.name);
         }
         healthPercent = (currentHealth / maxHealth) * 100;
         Debug.Log("healthPercent of" + gameObject.name + " is " + healthPercent + "%");
@@ -54,6 +55,13 @@ public class Health : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            if (source != null)
+            {
+                if (source.controller != null)
+                {
+                    source.controller.AddToScore(200);
+                }
+            }
             Die(source);
         }
     }
@@ -111,23 +119,18 @@ public class Health : MonoBehaviour
     {
         Pawn pawn = gameObject.GetComponent<Pawn>();
 
-        AudioManager audio = audioManager.GetComponent<AudioManager>();
 
-        if(audio != null) 
-        { 
-            audio.PlayDeathSound();
-        }
-        /*if (GameManager.instance != null)
+        if (AudioManager.instance != null)
         {
-            GameManager.instance.PlayDeathSound();
-        }*/
+            AudioManager.instance.PlayDeathSound();
+        }
         Controller loseLife = pawn.controller;
         Debug.Log(source.name + " destroyed " + gameObject.name);
         Destroy(gameObject);
-        if (loseLife != null)
-        { 
-            loseLife.RemoveLives(1);
-        }
+        
+        Debug.Log("check1");
+        loseLife.RemoveLives(1);
+        
     }
 }
 

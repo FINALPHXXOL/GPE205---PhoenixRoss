@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerController : Controller
 {
@@ -18,6 +19,7 @@ public class PlayerController : Controller
             if (GameManager.instance.playerSpawnTransform != null)
             {
                 GameManager.instance.players.Add(this);
+                GameManager.instance.playerCount = GameManager.instance.players.Count;
             }
         }
 
@@ -94,6 +96,7 @@ public class PlayerController : Controller
 
     public override void RemoveLives(float amount)
     {
+        int playerDeaths = 0;
         lives = lives - amount;
         if (lives >= 0)
         {
@@ -103,6 +106,21 @@ public class PlayerController : Controller
         {
             if (GameManager.instance != null)
             {
+                
+                foreach (PlayerController obj in GameManager.instance.players)
+                {
+
+                    if (obj.lives < 0)
+                    {
+                        playerDeaths = playerDeaths + 1;
+                        GameManager.instance.playerCount = GameManager.instance.players.Count - playerDeaths;
+                        if (GameManager.instance.playerCount <= 0)
+                        {
+                            GameManager.instance.ActivateGameOver();
+                        }
+
+                    }
+                }
                 GameManager.instance.ActivateGameOver();
             }
         }
