@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 4658368443184630075}
   - component: {fileID: 4658368443184630072}
   m_Layer: 0
-  m_Name: PlayerController
+  m_Name: PlayerController 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,12 +151,13 @@ MonoBehaviour:
   UIScore: {fileID: 7731954767297752074}
   UILives: {fileID: 6324952371863560692}
   score: 0
-  lives: 0
+  lives: 1
   moveForwardKey: 119
   moveBackwardKey: 115
   rotateClockwiseKey: 100
   rotateCounterClockwiseKey: 97
   shootKey: 32
+  camera1: {fileID: 0}
 --- !u!1001 &132264277281514620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -177,6 +178,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 7681045629669017718, guid: 2ebe5ca250ce9814f8e89b01a72ddd4d, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681045629669017718, guid: 2ebe5ca250ce9814f8e89b01a72ddd4d, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.12283826
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681045629669017718, guid: 2ebe5ca250ce9814f8e89b01a72ddd4d, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681045629669017718, guid: 2ebe5ca250ce9814f8e89b01a72ddd4d, type: 3}
       propertyPath: m_fontSizeBase
       value: 21
       objectReference: {fileID: 0}
@@ -188,6 +201,10 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 7681045629669017718, guid: 2ebe5ca250ce9814f8e89b01a72ddd4d, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294909696
+      objectReference: {fileID: 0}
     - target: {fileID: 7681045629669017718, guid: 2ebe5ca250ce9814f8e89b01a72ddd4d, type: 3}
       propertyPath: m_TextStyleHashCode
       value: -1183493901
@@ -398,6 +415,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 8648604381359278144, guid: 6686a324d8ade7e4e87b54e3a7e8f647, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.12156863
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648604381359278144, guid: 6686a324d8ade7e4e87b54e3a7e8f647, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648604381359278144, guid: 6686a324d8ade7e4e87b54e3a7e8f647, type: 3}
       propertyPath: m_fontSizeBase
       value: 21
       objectReference: {fileID: 0}
@@ -409,6 +434,10 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 8648604381359278144, guid: 6686a324d8ade7e4e87b54e3a7e8f647, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294909696
+      objectReference: {fileID: 0}
     - target: {fileID: 8648604381359278144, guid: 6686a324d8ade7e4e87b54e3a7e8f647, type: 3}
       propertyPath: m_TextStyleHashCode
       value: -1183493901

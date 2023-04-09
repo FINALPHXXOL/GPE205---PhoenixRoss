@@ -16,12 +16,17 @@ public abstract class Pawn : MonoBehaviour
     // Variable for Rate of Fire
     public float fireRate;
     public Controller controller;
+    public Camera camera1;
+    public bool isPlayerOnePawn;
+
 
     // Start is called before the first frame update
     public virtual void Start()
     {
         mover = GetComponent<Mover>();
         hp = GetComponent<Health>();
+
+        
     }
 
 
@@ -30,6 +35,7 @@ public abstract class Pawn : MonoBehaviour
     {
         
     }
+
 
     public void SpeedUpActivate()
     {

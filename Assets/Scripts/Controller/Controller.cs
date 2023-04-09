@@ -12,7 +12,8 @@ public abstract class Controller : MonoBehaviour
 
     public float score;
     public float lives;
-    
+    public bool isPlayerOneController;
+
     // Start is called before the first frame update
     public virtual void Start()
     {

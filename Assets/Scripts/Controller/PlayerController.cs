@@ -11,6 +11,8 @@ public class PlayerController : Controller
     public KeyCode rotateCounterClockwiseKey;
     public KeyCode shootKey;
 
+    public Camera camera1;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -24,6 +26,8 @@ public class PlayerController : Controller
         }
 
         base.Start();
+
+        
         
     }
 
@@ -58,6 +62,24 @@ public class PlayerController : Controller
 
         this.pawn = newPawn;
         newPawn.controller = this;
+        if (isPlayerOneController == true && GameManager.instance.isMultiplayer == true)
+        {
+            Rect rect = new Rect(0, 0, 0.5f, 1);
+
+            newPawn.camera1.rect = rect;
+
+            newPawn.camera1.depth = 20;
+
+            newPawn.isPlayerOnePawn = true;
+
+        } else if (GameManager.instance.isMultiplayer == true)
+        {
+            Rect rect = new Rect(0.5f, 0, 0.5f, 1);
+
+            newPawn.camera1.rect = rect;
+
+            newPawn.camera1.depth = 20;
+        }
 
         Debug.Log("Player respawned.");
 
@@ -121,7 +143,6 @@ public class PlayerController : Controller
 
                     }
                 }
-                GameManager.instance.ActivateGameOver();
             }
         }
         if (UILives != null)

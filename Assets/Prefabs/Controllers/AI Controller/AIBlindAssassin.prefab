@@ -45,11 +45,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pawn: {fileID: 5685588691658228409, guid: 248fd082d59672f49baaf042f3f99b88, type: 3}
+  UIScore: {fileID: 0}
+  UILives: {fileID: 0}
+  score: 0
+  lives: 0
   currentState: 0
   target: {fileID: 0}
   fleeDistance: 5
   waypoints: []
-  waypointStopDistance: 1
+  waypointStopDistance: 4
   hearingDistance: 10
   fieldOfView: 45
   isPatrolLoop: 0

@@ -12,9 +12,16 @@ public class GameManager : MonoBehaviour
 
     //Prefabs
     public GameObject playerControllerPrefab;
+    public GameObject playerController2Prefab;
     public GameObject tankPawnPrefab;
     public GameObject AIControllerPrefab;
     public GameObject AITankPawnPrefab;
+    public GameObject AIControllerPrefab2;
+    public GameObject AITankPawnPrefab2;
+    public GameObject AIControllerPrefab3;
+    public GameObject AITankPawnPrefab3;
+    public GameObject AIControllerPrefab4;
+    public GameObject AITankPawnPrefab4;
     public Transform playerSpawnTransform;
     public Transform enemyAISpawnTranform;
     public List<PlayerController> players;
@@ -23,13 +30,13 @@ public class GameManager : MonoBehaviour
     public AudioSource deathAudio;
     public AudioClip deathClip;
     public GameObject mapGenerator;
-    public GameObject newPlayerObj;
-    public GameObject newAIObj;
+    public Camera minimapCamera;
     public float highscore;
     public int enemyCount;
     public int playerCount;
     private int index;
     private int listlength;
+    public bool isMultiplayer;
     #endregion Variables
 
     // Game States
@@ -167,7 +174,18 @@ public class GameManager : MonoBehaviour
         // generate map
         MapGenerator map = mapGenerator.GetComponent<MapGenerator>();
         map.GenerateMap();
+        if (minimapCamera != null)
+        {
+            if (isMultiplayer == false)
+            {
+                Rect rect = new Rect(0.78f, 0.02f, 0.21f, 0.21f);
 
+                minimapCamera.rect = rect;
+
+                minimapCamera.depth = 40;
+            }
+        }
+        
         // Deactivate all states
         DeactivateAllStates();
         AllMenus.SetActive(false);
@@ -219,7 +237,7 @@ public class GameManager : MonoBehaviour
     public void SpawnPlayer()
     {
         playerSpawnTransform = FindRandomSpawn();
-        newPlayerObj = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity);
+        GameObject newPlayerObj = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity);
         GameObject newPawnObj = Instantiate(tankPawnPrefab, playerSpawnTransform.position, playerSpawnTransform.rotation);
 
         Controller newController = newPlayerObj.GetComponent<Controller>();
@@ -227,12 +245,48 @@ public class GameManager : MonoBehaviour
 
         newController.pawn = newPawn;
         newPawn.controller = newController;
+        newPawn.isPlayerOnePawn = true;
+        newController.isPlayerOneController = true;
+
+        if (newPawn.camera1 != null)
+        {
+            if (newPawn.isPlayerOnePawn == true && isMultiplayer == true)
+            {
+                Rect rect = new Rect(0, 0, 0.5f, 1);
+
+                newPawn.camera1.rect = rect;
+
+                newPawn.camera1.depth = 20;
+            }
+        }
+    }
+
+    public void SpawnPlayer2()
+    {
+        playerSpawnTransform = FindRandomSpawn();
+        GameObject newPlayerObj = Instantiate(playerController2Prefab, Vector3.zero, Quaternion.identity);
+        GameObject newPawnObj = Instantiate(tankPawnPrefab, playerSpawnTransform.position, playerSpawnTransform.rotation);
+
+        Controller newController = newPlayerObj.GetComponent<Controller>();
+        Pawn newPawn = newPawnObj.GetComponent<Pawn>();
+
+        newController.pawn = newPawn;
+        newPawn.controller = newController;
+
+        if (newPawn.camera1 != null)
+        {
+                Rect rect = new Rect(0.5f, 0, 0.5f, 1);
+
+                newPawn.camera1.rect = rect;
+
+                newPawn.camera1.depth = 20;
+        }
     }
     
     public void SpawnAI()
     {
         enemyAISpawnTranform = FindRandomSpawn();
-        newAIObj = Instantiate(AIControllerPrefab, Vector3.zero, Quaternion.identity);
+        GameObject newAIObj = Instantiate(AIControllerPrefab, Vector3.zero, Quaternion.identity);
         GameObject newPawnObj = Instantiate(AITankPawnPrefab, enemyAISpawnTranform.position, enemyAISpawnTranform.rotation);
 
         Controller newController = newAIObj.GetComponent<Controller>();
@@ -241,6 +295,36 @@ public class GameManager : MonoBehaviour
         newController.pawn = newPawn;
         newPawn.controller = newController;
 
-        enemyCount = enemyAIs.Count;
+        enemyAISpawnTranform = FindRandomSpawn();
+        GameObject newAIObj2 = Instantiate(AIControllerPrefab2, Vector3.zero, Quaternion.identity);
+        GameObject newPawnObj2 = Instantiate(AITankPawnPrefab2, enemyAISpawnTranform.position, enemyAISpawnTranform.rotation);
+
+        Controller newController2 = newAIObj2.GetComponent<Controller>();
+        Pawn newPawn2 = newPawnObj2.GetComponent<Pawn>();
+
+        newController2.pawn = newPawn2;
+        newPawn2.controller = newController2;
+
+        enemyAISpawnTranform = FindRandomSpawn();
+        GameObject newAIObj3 = Instantiate(AIControllerPrefab3, Vector3.zero, Quaternion.identity);
+        GameObject newPawnObj3 = Instantiate(AITankPawnPrefab3, enemyAISpawnTranform.position, enemyAISpawnTranform.rotation);
+
+        Controller newController3 = newAIObj3.GetComponent<Controller>();
+        Pawn newPawn3 = newPawnObj3.GetComponent<Pawn>();
+
+        newController3.pawn = newPawn3;
+        newPawn3.controller = newController3;
+
+        enemyAISpawnTranform = FindRandomSpawn();
+        GameObject newAIObj4 = Instantiate(AIControllerPrefab4, Vector3.zero, Quaternion.identity);
+        GameObject newPawnObj4 = Instantiate(AITankPawnPrefab4, enemyAISpawnTranform.position, enemyAISpawnTranform.rotation);
+
+        Controller newController4 = newAIObj4.GetComponent<Controller>();
+        Pawn newPawn4 = newPawnObj4.GetComponent<Pawn>();
+
+        newController4.pawn = newPawn4;
+        newPawn4.controller = newController4;
+
+        //enemyCount = enemyAIs.Count;
     }
 }

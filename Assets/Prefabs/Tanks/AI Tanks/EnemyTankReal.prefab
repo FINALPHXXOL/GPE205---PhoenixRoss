@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941490098}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -6.394}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -463.399, y: -306.499}
+  m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1941490101
 CanvasRenderer:
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.1764706, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -242,8 +242,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5898593421246680132}
-  m_LocalRotation: {x: -0.028678207, y: 0.04531804, z: 0.0028196308, w: 0.9985569}
-  m_LocalPosition: {x: 0.1301629, y: 0.28, z: -6.061046}
+  m_LocalRotation: {x: -0.00005367445, y: 0.043977644, z: 0.0064814026, w: 0.9990116}
+  m_LocalPosition: {x: 1.5438843, y: 1, z: -23.780844}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -251,7 +251,7 @@ Transform:
   - {fileID: 1997604570}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -3.298, y: 5.192, z: 0.174}
+  m_LocalEulerAnglesHint: {x: -0.039, y: 5.041, z: 0.742}
 --- !u!33 &7870049485154556251
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -324,6 +324,8 @@ MonoBehaviour:
   speedUpActive: 0
   fireRate: 0.5
   controller: {fileID: 0}
+  camera1: {fileID: 0}
+  isPlayerOne: 0
   shooter: {fileID: 0}
   shellPrefab: {fileID: 314419285128845443, guid: 4bde28657fcb7d04ca3a997b0badaef8, type: 3}
   fireForce: 1200

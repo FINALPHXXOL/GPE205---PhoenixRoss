@@ -31,7 +31,7 @@ public class AICoward : AIController
                 Flee();
                 if (target == null || (!CanSee(target) && !CanHear(target)))
                 {
-                    ChangeState(AIState.Idle);
+                    ChangeState(AIState.Patrol);
                 }
                 if (pawn.hp != null)
                 {
